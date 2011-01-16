@@ -1,6 +1,6 @@
 module Thumbs
   class ServerName
-    def initialize(app, server_name = "Thumbs/0.0.1 (https://github.com/martinciu/thumbs)")
+    def initialize(app, server_name)
       @app = app
       @server_name = server_name
     end

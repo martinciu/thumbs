@@ -1,6 +1,6 @@
 module Thumbs
   class CacheControl
-    def initialize(app, ttl = 86400)
+    def initialize(app, ttl)
       @app = app
       @ttl = ttl
     end

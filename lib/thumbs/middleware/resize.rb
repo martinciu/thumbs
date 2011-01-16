@@ -1,3 +1,5 @@
+require 'mini_magick'
+
 module Thumbs
   class Resize
     

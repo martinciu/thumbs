@@ -1,10 +1,16 @@
 h1. Thumbs
 
-Image server proxy that can resize images on the fly.
+Image server proxy that can resize images on the fly. Can by used as a Rack middleware or a standalone app.
 
-h2. Installation
+h2. Usage
 
 Comming soon...
+
+h2. TODO
+
+ * Tests!
+ * Access control
+ * use of Rack::Sendfile
 
 h2. Contributing
 

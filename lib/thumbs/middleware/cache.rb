@@ -1,3 +1,5 @@
+require 'ftools'
+
 module Thumbs
   class Cache
     
@@ -12,7 +14,7 @@ module Thumbs
       path   = env["thumbs.#{@cache_type}_path"]
 
       if status == 200
-        File.makedirs(File.dirname(path)) unless File.exist?(File.dirname(path))
+        File.makedirs(File.dirname(path)) unless File.directory?(File.dirname(path))
         open(path, "w") do |cache_file|
           cache_file.write(body)
         end

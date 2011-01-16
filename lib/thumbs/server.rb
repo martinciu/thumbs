@@ -2,10 +2,8 @@ module Thumbs
 
   class Server
     
-    URL_MAP = /^\/(\d+x\d+)\/(.+?)\/(.+)$/
- 
     def call(env)
-      if env['PATH_INFO'] =~ URL_MAP
+      if env['PATH_INFO'] =~ env['thumbs.url_pattern']
         [200, {}, ["Found"]]
       else
         [404, {}, ["Not found"]]

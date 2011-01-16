@@ -3,7 +3,7 @@ module Thumbs
   class NotFound
     F = ::File
     
-    def initialize(app, image_not_found = "public/images/image_not_found.jpg")
+    def initialize(app, image_not_found)
       @app = app
       file = F.expand_path(image_not_found)
       @content = F.read(file)

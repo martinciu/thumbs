@@ -5,14 +5,10 @@ module Thumbs
 
     attr_accessor :server, :path, :size
 
-    def initialize(env)
-      matches = /^\/(\d+x\d+)\/(.+?)\/(.+)$/.match(env['PATH_INFO'])
-      if matches
-        @size          = matches[1]
-        @server        = matches[2]
-        @path          = matches[3]
-        @root_folder   = env["thumbs.root_folder"]
-      end
+    def initialize(params)
+      @size          = params[:size]
+      @server, @path = params[:original_url].split("/", 2)
+      @root_folder   = params[:root_folder]
     end
 
     def local_path(size = "original")
