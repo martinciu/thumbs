@@ -1,15 +1,12 @@
-module Thumbs
-  autoload :Server,       'thumbs/server'
-  autoload :Image,        'thumbs/image'
-  autoload :TryLocal,     'thumbs/middleware/try_local'
-  autoload :NotFound,     'thumbs/middleware/not_found'
-  autoload :ServerName,   'thumbs/middleware/server_name'
-  autoload :CacheControl, 'thumbs/middleware/cache_control'
-  autoload :Download,     'thumbs/middleware/download'
-  autoload :Resize,       'thumbs/middleware/resize'
-  autoload :Config,       'thumbs/middleware/config'
-  autoload :Cache,        'thumbs/middleware/cache'
-  
-end
+require 'thumbs/server'
+require 'thumbs/image'
+require 'thumbs/middleware/try_local'
+require 'thumbs/middleware/not_found'
+require 'thumbs/middleware/server_name'
+require 'thumbs/middleware/cache_control'
+require 'thumbs/middleware/download'
+require 'thumbs/middleware/resize'
+require 'thumbs/middleware/config'
+require 'thumbs/middleware/cache'
 
 
