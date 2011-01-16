@@ -1,5 +1,4 @@
 require 'digest/md5'
-
 module Thumbs
 
   class Image
