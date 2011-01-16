@@ -1,32 +1,35 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    capistrano (2.5.19)
-      highline
-      net-scp (>= 1.0.0)
-      net-sftp (>= 2.0.0)
-      net-ssh (>= 2.0.14)
-      net-ssh-gateway (>= 1.0.0)
-    highline (1.6.1)
+    diff-lcs (1.1.2)
+    git (1.2.5)
+    jeweler (1.5.2)
+      bundler (~> 1.0.0)
+      git (>= 1.2.5)
+      rake
     mini_magick (3.2)
       subexec (~> 0.0.4)
-    net-scp (1.0.4)
-      net-ssh (>= 1.99.1)
-    net-sftp (2.0.5)
-      net-ssh (>= 2.0.9)
-    net-ssh (2.0.23)
-    net-ssh-gateway (1.0.1)
-      net-ssh (>= 1.99.1)
     rack (1.2.1)
     rack-contrib (1.1.0)
       rack (>= 0.9.1)
+    rake (0.8.7)
+    rspec (2.1.0)
+      rspec-core (~> 2.1.0)
+      rspec-expectations (~> 2.1.0)
+      rspec-mocks (~> 2.1.0)
+    rspec-core (2.1.0)
+    rspec-expectations (2.1.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.1.0)
     subexec (0.0.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  capistrano
+  bundler
+  jeweler (~> 1.5.2)
   mini_magick
   rack
   rack-contrib
+  rspec

@@ -8,7 +8,7 @@ module Thumbs
     end
     
     def call(env)
-      if File.exist?(env['thumbs.original_path'])
+      if env['thumbs.original_path'] && File.exist?(env['thumbs.original_path'])
         [200, {}, open(env['thumbs.original_path']).read]
       else 
         begin

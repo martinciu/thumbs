@@ -6,5 +6,7 @@ gem "rack-contrib"
 gem "mini_magick"
 
 group :development do
-  gem 'capistrano'
+  gem "rspec"
+  gem "bundler"
+  gem "jeweler", "~> 1.5.2"
 end

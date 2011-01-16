@@ -6,13 +6,13 @@ module Thumbs
     attr_accessor :server, :path, :size
 
     def initialize(params)
-      @size          = params[:size]
+      @size          = params[:size] if params[:size] =~ /^\d+x\d+$/
       @server, @path = params[:original_url].split("/", 2)
       @root_folder   = params[:root_folder]
     end
 
     def local_path(size = "original")
-      File.join(@root_folder, @server, size, local_filename.chars.first, local_filename)
+      File.join(@root_folder, @server, size, local_filename.chars.first, local_filename) if @root_folder
     end
     
     def local_filename

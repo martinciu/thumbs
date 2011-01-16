@@ -21,11 +21,8 @@ module Thumbs
         env['thumbs.resized_path']    = image.local_path(image.size)
         env['thumbs.original_path']   = image.local_path
         env['thumbs.size']            = image.size
-
-        @app.call(env)
-      else
-        [404, {'Content-Type' => "text/plain"}, ["Not found"]]
       end
+      @app.call(env)
     end
 
     protected
