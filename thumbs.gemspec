@@ -21,9 +21,11 @@ Gem::Specification.new do |s|
     "Gemfile.lock",
     "LICENSE.txt",
     "README.textile",
+    "Rakefile",
     "VERSION",
     "lib/thumbs.rb",
     "lib/thumbs/image.rb",
+    "lib/thumbs/images/image_not_found.jpg",
     "lib/thumbs/middleware/cache.rb",
     "lib/thumbs/middleware/cache_control.rb",
     "lib/thumbs/middleware/config.rb",
@@ -33,7 +35,9 @@ Gem::Specification.new do |s|
     "lib/thumbs/middleware/server_name.rb",
     "lib/thumbs/middleware/try_local.rb",
     "lib/thumbs/server.rb",
-    "public/images/image_not_found.jpg"
+    "spec/spec_helper.rb",
+    "spec/thumbs_spec.rb",
+    "thumbs.gemspec"
   ]
   s.homepage = %q{http://github.com/martinciu/thumbs}
   s.licenses = ["MIT"]
