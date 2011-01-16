@@ -1,0 +1,17 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    mini_magick (3.2)
+      subexec (~> 0.0.4)
+    rack (1.2.1)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
+    subexec (0.0.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  mini_magick
+  rack
+  rack-contrib
