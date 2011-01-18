@@ -1,5 +1,3 @@
-require 'ftools'
-
 module Thumbs
   class Cache
     
@@ -11,17 +9,21 @@ module Thumbs
     def call(env)
       status, headers, body = @app.call(env)
 
-      path   = env["thumbs.#{@cache_type}_path"]
+      path = env["thumbs.#{@cache_type}_path"]
 
-      if status == 200
-        File.makedirs(File.dirname(path)) unless File.directory?(File.dirname(path))
-        open(path, "w") do |cache_file|
-          cache_file.write(body)
+      if path && status == 200
+        tries = 0
+        begin
+          File.open(path, "wb") {|f| f.write(body) }
+        rescue Errno::ENOENT, IOError
+          Dir.mkdir(File.dirname(path), 0755)
+          retry if (tries += 1) == 1
         end
       end
 
       [status, headers, body]
     end
+    
   end
 
 end

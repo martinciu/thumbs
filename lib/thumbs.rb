@@ -13,8 +13,7 @@ module Thumbs
   autoload :Config,       'thumbs/middleware/config'
   autoload :Cache,        'thumbs/middleware/cache'
   
-  def self.new(*args)
-    app = args.shift if args.first.respond_to?(:call)
+  def self.new(args)
     options = {
       :thumbs_folder   => false,
       :etag            => true,
@@ -24,8 +23,8 @@ module Thumbs
       :server_name     => "Thumbs/0.0.1 (https://github.com/martinciu/thumbs)",
       :url_map         => "/:size/:original_url",
       :image_not_found => File.join(File.dirname(__FILE__), "thumbs", "images", "image_not_found.jpg"),
-      :runtime         => RACK_ENV == 'development'
-    }.merge!(args.first)
+      :runtime         => false
+    }.merge!(args)
     
     Rack::Builder.new do
       
@@ -35,9 +34,7 @@ module Thumbs
         env['thumbs.root_folder'] = options[:thumbs_folder]
       end
       
-      if RACK_ENV == 'development'
-        use Rack::ShowExceptions
-      end
+      use Rack::ShowExceptions
 
       use Thumbs::Config, options[:url_map]
 

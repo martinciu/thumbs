@@ -14,7 +14,7 @@ module Thumbs
           hash[k.to_sym] = v
           hash
         end
-
+        
         image = Image.new(params.merge(:root_folder => env['thumbs.root_folder']))
 
         env['thumbs.remote_url']      = image.remote_url

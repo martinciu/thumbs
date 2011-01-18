@@ -1,4 +1,4 @@
-require 'digest/md5'
+require 'digest/sha1'
 module Thumbs
 
   class Image
@@ -7,22 +7,27 @@ module Thumbs
 
     def initialize(params)
       @size          = params[:size] if params[:size] =~ /^\d+x\d+$/
-      @server, @path = params[:original_url].split("/", 2)
+      @url           = params[:original_url]
       @root_folder   = params[:root_folder]
     end
 
     def local_path(size = "original")
-      File.join(@root_folder, @server, size, local_filename.chars.first, local_filename) if @root_folder
-    end
-    
-    def local_filename
-      "#{Digest::MD5.hexdigest(@path)}.jpg"
+      File.join(@root_folder, spread(sha(size+@url))) if @root_folder
     end
     
     def remote_url
-      "http://#{@server}/#{@path}"
+      "http://#{@url}"
     end
-
+    
+    protected
+      def sha(path)
+        Digest::SHA1.hexdigest(path)
+      end
+      
+      def spread(sha, n = 2)
+        sha[2, 0] = "/"
+        sha
+      end
   end
 
 end

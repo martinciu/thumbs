@@ -1,6 +1,6 @@
 h1. Thumbs
 
-Image server proxy that can resize images on the fly. Can by used as a Rack middleware or a standalone app.
+Image server proxy that can resize images on the fly.
 
 h2. Usage
 
