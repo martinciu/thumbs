@@ -31,7 +31,7 @@ module Thumbs
       use Rack::Runtime if options[:runtime]
       
       use Rack::Config do |env|
-        env['thumbs.root_folder'] = options[:thumbs_folder]
+        env['thumbs.thumbs_folder'] = options[:thumbs_folder]
       end
       
       use Rack::ShowExceptions

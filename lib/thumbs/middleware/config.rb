@@ -15,7 +15,7 @@ module Thumbs
           hash
         end
         
-        image = Image.new(params.merge(:root_folder => env['thumbs.root_folder']))
+        image = Image.new(params.merge(:thumbs_folder => env['thumbs.thumbs_folder']))
 
         env['thumbs.remote_url']      = image.remote_url
         env['thumbs.resized_path']    = image.local_path(image.size)

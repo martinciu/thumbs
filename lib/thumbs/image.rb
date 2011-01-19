@@ -8,11 +8,11 @@ module Thumbs
     def initialize(params)
       @size          = params[:size] if params[:size] =~ /^\d+x\d+$/
       @url           = params[:original_url]
-      @root_folder   = params[:root_folder]
+      @thumbs_folder   = params[:thumbs_folder]
     end
 
     def local_path(size = "original")
-      File.join(@root_folder, spread(sha(size+@url))) if @root_folder
+      File.join(@thumbs_folder, spread(sha(size+@url))) if @thumbs_folder
     end
     
     def remote_url
