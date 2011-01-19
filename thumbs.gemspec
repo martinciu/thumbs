@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{thumbs}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcin Ciunelis"]
-  s.date = %q{2011-01-16}
-  s.description = %q{Works as a Rack middleware or a standalone app.}
+  s.date = %q{2011-01-19}
+  s.description = %q{}
   s.email = %q{marcin.ciunelis@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
