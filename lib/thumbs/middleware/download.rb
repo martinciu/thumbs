@@ -8,14 +8,6 @@ module Thumbs
     end
     
     def call(env)
-      if env['thumbs.original_path']
-        begin
-          status, headers, body = [200, {}, File.open(env['thumbs.original_path']).read]
-          env['thumbs.logger'] << "original_cache"
-          return [status, headers, body]
-        rescue Errno::ENOENT, IOError => e
-        end
-      end
       if env['thumbs.remote_url']
         begin
           status, headers, body = [200, {}, open(env['thumbs.remote_url']).read]

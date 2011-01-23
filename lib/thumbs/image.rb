@@ -12,7 +12,7 @@ module Thumbs
     end
 
     def local_path(size)
-      File.join(@thumbs_folder, spread(sha(size+@url)))+File.extname(@url) if @thumbs_folder
+      File.join(@thumbs_folder, spread(sha(size+@url))) if @thumbs_folder
     end
     
     def original_path

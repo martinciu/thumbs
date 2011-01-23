@@ -10,14 +10,16 @@ module Thumbs
     def call(env)
       status, headers, body = @app.call(env)
 
-      if headers["Content-Type"] == "image/jpeg" && env['thumbs.size']
-        thumb = MiniMagick::Image.read(body)
-        thumb.resize env['thumbs.size']
-      
-        [status, headers, thumb.to_blob]
-      else
-        [status, headers, body]
+      if env['thumbs.size']
+        begin
+          thumb = MiniMagick::Image.read(body)
+          thumb.resize env['thumbs.size']
+          body = thumb.to_blob
+        rescue
+        end
       end
+
+      [status, headers, body]
     end
   end
 end

@@ -4,15 +4,16 @@ require "bundler/setup"
 module Thumbs
   autoload :Server,       'thumbs/server'
   autoload :Image,        'thumbs/image'
-  autoload :TryLocal,     'thumbs/middleware/try_local'
   autoload :NotFound,     'thumbs/middleware/not_found'
   autoload :ServerName,   'thumbs/middleware/server_name'
   autoload :CacheControl, 'thumbs/middleware/cache_control'
   autoload :Download,     'thumbs/middleware/download'
   autoload :Resize,       'thumbs/middleware/resize'
   autoload :Config,       'thumbs/middleware/config'
-  autoload :Cache,        'thumbs/middleware/cache'
+  autoload :CacheWrite,   'thumbs/middleware/cache_write'
+  autoload :CacheRead,    'thumbs/middleware/cache_read'
   autoload :Logger,       'thumbs/middleware/logger'
+  autoload :ContentType,  'thumbs/middleware/content_type'
   
   def self.new(args)
     options = {
@@ -49,18 +50,20 @@ module Thumbs
       use Thumbs::CacheControl, options[:cache_control] if options[:cache_control]
       use Rack::ETag if options[:etag]
 
+      use Thumbs::ContentType
+      
       if options[:cache] && options[:thumbs_folder] && File.exist?(File.expand_path(options[:thumbs_folder]))
-        use Thumbs::TryLocal
-        use Thumbs::Cache, "resized"
+        use Thumbs::CacheRead, "resized"
+        use Thumbs::CacheWrite, "resized"
       end
       
       use Thumbs::Resize
 
-      use Thumbs::Cache, "original" if options[:cache_original] && options[:thumbs_folder] && File.exist?(File.expand_path(options[:thumbs_folder]))
+      use Thumbs::CacheWrite, "original" if options[:cache_original] && options[:thumbs_folder] && File.exist?(File.expand_path(options[:thumbs_folder]))
 
-      use Rack::ContentType, "image/jpeg"
       use Thumbs::NotFound, options[:image_not_found] if options[:image_not_found] && File.exist?(File.expand_path(options[:image_not_found]))
 
+      use Thumbs::CacheRead, "original" if options[:cache_original]
       use Thumbs::Download
 
       run Thumbs::Server.new

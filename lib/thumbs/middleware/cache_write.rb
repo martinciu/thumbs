@@ -1,5 +1,5 @@
 module Thumbs
-  class Cache
+  class CacheWrite
     
     def initialize(app, cache_type = "resized")
       @app = app
