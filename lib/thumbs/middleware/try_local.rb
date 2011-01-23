@@ -10,8 +10,9 @@ module Thumbs
       status, headers, body = @local.call(env.merge('PATH_INFO' => "/#{env['thumbs.local_path']}"))
       if status == 404
         status, headers, body = @app.call(env)
+      else
+        env['thumbs.logger'] << "local_cache"
       end
-      env['thumbs.logger'] << "local_cache"
       [status, headers, body]
     end
   end

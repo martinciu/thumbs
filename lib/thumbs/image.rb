@@ -8,7 +8,7 @@ module Thumbs
     def initialize(params)
       @size          = params[:size] if params[:size] =~ /^\d+x\d+$/
       @url           = params[:original_url]
-      @thumbs_folder   = params[:thumbs_folder]
+      @thumbs_folder = params[:thumbs_folder]
     end
 
     def local_path(size = "original")
