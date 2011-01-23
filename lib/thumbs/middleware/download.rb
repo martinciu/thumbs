@@ -10,15 +10,21 @@ module Thumbs
     def call(env)
       if env['thumbs.original_path']
         begin
-          return [200, {}, File.open(env['thumbs.original_path']).read]
+          status, headers, body = [200, {}, File.open(env['thumbs.original_path']).read]
+          env['thumbs.logger'] << "original_cache"
+          return [status, headers, body]
         rescue Errno::ENOENT, IOError => e
         end
       end
       if env['thumbs.remote_url']
         begin
-          return [200, {}, open(env['thumbs.remote_url']).read]
+          status, headers, body = [200, {}, open(env['thumbs.remote_url']).read]
+          env['thumbs.logger'] << "download"
+          return [status, headers, body]
         rescue StandardError, Timeout::Error => e
-          return [404, {'Content-Type' => 'text/plain'}, ["Not found"]]
+          status, headers, body = [404, {'Content-Type' => 'text/plain'}, ["Not found"]]
+          env['thumbs.logger'] << "not_found"
+          return [status, headers, body]
         end
       else
         return @app.call(env)

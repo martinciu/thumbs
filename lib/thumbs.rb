@@ -12,6 +12,7 @@ module Thumbs
   autoload :Resize,       'thumbs/middleware/resize'
   autoload :Config,       'thumbs/middleware/config'
   autoload :Cache,        'thumbs/middleware/cache'
+  autoload :Logger,       'thumbs/middleware/logger'
   
   def self.new(args)
     options = {
@@ -23,7 +24,8 @@ module Thumbs
       :server_name     => "Thumbs/0.0.1 (https://github.com/martinciu/thumbs)",
       :url_map         => "/:size/:original_url",
       :image_not_found => File.join(File.dirname(__FILE__), "thumbs", "images", "image_not_found.jpg"),
-      :runtime         => false
+      :runtime         => false,
+      :logfile         => "log/thumbs.log"
     }.merge!(args)
     
     Rack::Builder.new do
@@ -37,6 +39,8 @@ module Thumbs
       use Rack::ShowExceptions
 
       use Thumbs::Config, options[:url_map]
+      
+      use Thumbs::Logger, options[:logfile]
 
       use Thumbs::ServerName, options[:server_name] if options[:server_name]
       use Thumbs::CacheControl, options[:default_ttl] if options[:default_ttl]

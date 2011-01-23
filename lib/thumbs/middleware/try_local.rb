@@ -11,6 +11,7 @@ module Thumbs
       if status == 404
         status, headers, body = @app.call(env)
       end
+      env['thumbs.logger'] << "local_cache"
       [status, headers, body]
     end
   end
