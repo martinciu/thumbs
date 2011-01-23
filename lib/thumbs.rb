@@ -25,7 +25,7 @@ module Thumbs
         :ttl           => 86400,
         :last_modified => true
       },
-      :server_name     => "Thumbs/0.0.1 (https://github.com/martinciu/thumbs)",
+      :server_name     => "Thumbs/0.0.3",
       :url_map         => "/:size/:original_url",
       :image_not_found => File.join(File.dirname(__FILE__), "thumbs", "images", "image_not_found.jpg"),
       :runtime         => false,

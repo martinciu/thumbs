@@ -1,10 +1,33 @@
 h1. Thumbs
 
-Image server proxy that can resize images on the fly.
+Image server proxy that can resize images on the fly. Built in ruby as a Rack application.
 
 h2. Usage
 
-Comming soon...
+config.ru
+
+bq. 
+
+  require "rubygems"
+  require "bundler/setup"
+
+  require 'thumbs'
+
+  run Thumbs.new(
+      :url_map         => "/:size/:original_url", # url pattern, :original_url is required
+      :thumbs_folder   => "public/system/thumbs", # default: false - do not write on disk
+      :cache           => true,                   # cache resized images - has no effect unless thumbs_folder exist
+      :cache_original  => true,                   # cache original images - has no effect unless thumbs_folder exist
+      :runtime         => true,                   # add X-Runtime header
+      :cache_control => {
+        :ttl           => 86400,                  # add Expires and Cache-Control header for 24h
+        :last_modified => true                    # add Last-Modfied header
+      },
+      :etag            => true,                   # add ETag
+      :logfile         => "log/thumbs.log"        # log file
+      :server_name     => "Thumbs/0.0.3",         # Server header
+      :image_not_found => "image_not_found.jpg"   # path to image_not_found
+    )
 
 h2. TODO
 
