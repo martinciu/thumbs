@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcin Ciunelis"]
-  s.date = %q{2011-01-19}
+  s.date = %q{2011-01-23}
   s.description = %q{}
   s.email = %q{marcin.ciunelis@gmail.com}
   s.extra_rdoc_files = [
@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     "Gemfile",
-    "Gemfile.lock",
     "LICENSE.txt",
     "README.textile",
     "Rakefile",
@@ -26,14 +25,16 @@ Gem::Specification.new do |s|
     "lib/thumbs.rb",
     "lib/thumbs/image.rb",
     "lib/thumbs/images/image_not_found.jpg",
-    "lib/thumbs/middleware/cache.rb",
     "lib/thumbs/middleware/cache_control.rb",
+    "lib/thumbs/middleware/cache_read.rb",
+    "lib/thumbs/middleware/cache_write.rb",
     "lib/thumbs/middleware/config.rb",
+    "lib/thumbs/middleware/content_type.rb",
     "lib/thumbs/middleware/download.rb",
+    "lib/thumbs/middleware/logger.rb",
     "lib/thumbs/middleware/not_found.rb",
     "lib/thumbs/middleware/resize.rb",
     "lib/thumbs/middleware/server_name.rb",
-    "lib/thumbs/middleware/try_local.rb",
     "lib/thumbs/server.rb",
     "spec/spec_helper.rb",
     "spec/thumbs_spec.rb",
@@ -43,7 +44,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.4.1}
-  s.summary = %q{Image server proxy that can resize images on the fly.}
+  s.summary = %q{Image server proxy that can resize images on the fly. Built in ruby as a Rack application.}
   s.test_files = [
     "spec/spec_helper.rb",
     "spec/thumbs_spec.rb"
