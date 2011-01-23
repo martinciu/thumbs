@@ -20,7 +20,10 @@ module Thumbs
       :etag            => true,
       :cache           => true,
       :cache_original  => true,
-      :default_ttl     => 86400,
+      :cache_control   => {
+        :ttl           => 86400,
+        :last_modified => true
+      },
       :server_name     => "Thumbs/0.0.1 (https://github.com/martinciu/thumbs)",
       :url_map         => "/:size/:original_url",
       :image_not_found => File.join(File.dirname(__FILE__), "thumbs", "images", "image_not_found.jpg"),
@@ -43,7 +46,7 @@ module Thumbs
       use Thumbs::Logger, options[:logfile]
 
       use Thumbs::ServerName, options[:server_name] if options[:server_name]
-      use Thumbs::CacheControl, options[:default_ttl] if options[:default_ttl]
+      use Thumbs::CacheControl, options[:cache_control] if options[:cache_control]
       use Rack::ETag if options[:etag]
 
       if options[:cache] && options[:thumbs_folder] && File.exist?(File.expand_path(options[:thumbs_folder]))

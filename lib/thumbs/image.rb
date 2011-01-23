@@ -11,8 +11,16 @@ module Thumbs
       @thumbs_folder = params[:thumbs_folder]
     end
 
-    def local_path(size = "original")
-      File.join(@thumbs_folder, spread(sha(size+@url))) if @thumbs_folder
+    def local_path(size)
+      File.join(@thumbs_folder, spread(sha(size+@url)))+File.extname(@url) if @thumbs_folder
+    end
+    
+    def original_path
+      local_path("original")
+    end
+    
+    def resized_path
+      local_path(@size)
     end
     
     def remote_url

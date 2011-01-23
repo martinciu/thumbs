@@ -7,7 +7,7 @@ module Thumbs
     end
 
     def call(env)
-      status, headers, body = @local.call(env.merge('PATH_INFO' => "/#{env['thumbs.local_path']}"))
+      status, headers, body = @local.call(env.merge('PATH_INFO' => "/#{env['thumbs.resized_path']}"))
       if status == 404
         status, headers, body = @app.call(env)
       else
