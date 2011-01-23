@@ -1,5 +1,6 @@
 require "rubygems"
-require "bundler/setup"
+require "rack"
+require "rack-contrib"
 
 module Thumbs
   autoload :Server,       'thumbs/server'

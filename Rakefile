@@ -19,7 +19,6 @@ Jeweler::Tasks.new do |gem|
   gem.description = ""
   gem.email = "marcin.ciunelis@gmail.com"
   gem.authors = ["Marcin Ciunelis"]
-  gem.add_bundler_dependencies
 end
 Jeweler::RubygemsDotOrgTasks.new
 

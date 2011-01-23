@@ -2,13 +2,17 @@ h1. Thumbs
 
 Image server proxy that can resize images on the fly. Built in ruby as a Rack application.
 
+h2. Requirements
+
+ * rack
+ * rack-contrib
+ * mini_magick
+
 h2. Usage
 
 config.ru
 
 bc.. require "rubygems"
-require "bundler/setup"
-
 require 'thumbs'
 
 run Thumbs.new(
