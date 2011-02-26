@@ -3,7 +3,7 @@ module Thumbs
 
   class Image
 
-    attr_accessor :server, :path, :size
+    attr_accessor :server, :path, :size, :url
 
     def initialize(params)
       @size          = params[:size] if params[:size] =~ /^\d+x\d+$/

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcin Ciunelis"]
-  s.date = %q{2011-01-23}
+  s.date = %q{2011-02-26}
   s.description = %q{}
   s.email = %q{marcin.ciunelis@gmail.com}
   s.extra_rdoc_files = [
@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/martinciu/thumbs}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.4.1}
+  s.rubygems_version = %q{1.5.2}
   s.summary = %q{Image server proxy that can resize images on the fly. Built in ruby as a Rack application.}
   s.test_files = [
     "spec/spec_helper.rb",
@@ -57,6 +57,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<rack>, [">= 0"])
       s.add_runtime_dependency(%q<rack-contrib>, [">= 0"])
       s.add_runtime_dependency(%q<mini_magick>, [">= 0"])
+      s.add_runtime_dependency(%q<lumberjack>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<bundler>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
@@ -64,6 +65,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rack>, [">= 0"])
       s.add_dependency(%q<rack-contrib>, [">= 0"])
       s.add_dependency(%q<mini_magick>, [">= 0"])
+      s.add_dependency(%q<lumberjack>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<bundler>, [">= 0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
@@ -72,6 +74,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rack>, [">= 0"])
     s.add_dependency(%q<rack-contrib>, [">= 0"])
     s.add_dependency(%q<mini_magick>, [">= 0"])
+    s.add_dependency(%q<lumberjack>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<bundler>, [">= 0"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])

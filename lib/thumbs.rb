@@ -26,11 +26,11 @@ module Thumbs
         :ttl           => 86400,
         :last_modified => true
       },
-      :server_name     => "Thumbs/0.0.3",
+      :server_name     => "Thumbs/0.0.5",
       :url_map         => "/:size/:original_url",
       :image_not_found => File.join(File.dirname(__FILE__), "thumbs", "images", "image_not_found.jpg"),
       :runtime         => false,
-      :logfile         => "log/thumbs.log"
+      :logfile         => false
     }.merge!(args)
     
     Rack::Builder.new do
@@ -45,7 +45,7 @@ module Thumbs
 
       use Thumbs::Config, options[:url_map]
       
-      use Thumbs::Logger, options[:logfile]
+      use Thumbs::Logger, options[:logfile] if options[:logfile]
 
       use Thumbs::ServerName, options[:server_name] if options[:server_name]
       use Thumbs::CacheControl, options[:cache_control] if options[:cache_control]

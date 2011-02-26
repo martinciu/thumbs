@@ -4,6 +4,7 @@ source "http://rubygems.org"
 gem "rack"
 gem "rack-contrib"
 gem "mini_magick"
+gem "lumberjack"
 
 group :development do
   gem "rspec"

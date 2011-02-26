@@ -18,6 +18,7 @@ module Thumbs
         image = Image.new(params.merge(:thumbs_folder => env['thumbs.thumbs_folder']))
 
         env['thumbs.remote_url']      = image.remote_url
+        env['thumbs.url']             = image.url
         env['thumbs.resized_path']    = image.resized_path
         env['thumbs.original_path']   = image.original_path
         env['thumbs.size']            = image.size
