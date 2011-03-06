@@ -11,11 +11,11 @@ module Thumbs
       if env['thumbs.remote_url']
         begin
           status, headers, body = [200, {}, open(URI.escape(env['thumbs.remote_url'])).read]
-          env['thumbs.logger'] << "download"
+          env['thumbs.logger'] << "download" if env['thumbs.logger']
           return [status, headers, body]
         rescue StandardError, Timeout::Error => e
           status, headers, body = [404, {'Content-Type' => 'text/plain'}, ["Not found"]]
-          env['thumbs.logger'] << "not_found"
+          env['thumbs.logger'] << "not_found" if env['thumbs.logger']
           return [status, headers, body]
         end
       else

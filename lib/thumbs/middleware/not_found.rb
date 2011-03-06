@@ -14,7 +14,7 @@ module Thumbs
       if status == 200
         [status, headers, body]
       else
-        env['thumbs.logger'] << "not_found"
+        env['thumbs.logger'] << "not_found" if env['thumbs.logger']
         [404, {}, @content]
       end
     end

@@ -10,6 +10,8 @@ h2. Requirements
 
 h2. Usage
 
+1. as a standalone rack app
+
 config.ru
 
 bc.. require "rubygems"
@@ -26,16 +28,29 @@ run Thumbs.new(
       :last_modified => true                    # add Last-Modfied header
     },
     :etag            => true,                   # add ETag
-    :logfile         => "log/thumbs.log"        # log file
-    :server_name     => "Thumbs/0.0.3",         # Server header
+    :logfile         => false                   # will write log file if filepath is provided
+    :server_name     => "Thumbs/0.0.8",         # Server header
     :image_not_found => "image_not_found.jpg"   # path to image_not_found
   )
 
+2. as a moundable rails app
+
+YourApplication::Application.routes.draw do
+
+  mount Thumbs.new(:url_map => "/:size/:original_url") => "images/resized"
+
+  ....
+end
+
+3. you can even use it on heroku for free
+
+  create your own rack app, or use this one: http://thumbs-gem.heroku.com/i/100x100/www.google.com/images/logos/ps_logo2.png
+  
 h2. TODO
 
  * Tests!
  * Access control
- * use of Rack::Sendfile
+ * SSL support
 
 h2. Contributing
 
