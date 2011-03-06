@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcin Ciunelis"]
-  s.date = %q{2011-03-01}
+  s.date = %q{2011-03-06}
   s.description = %q{}
   s.email = %q{marcin.ciunelis@gmail.com}
   s.extra_rdoc_files = [
@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/martinciu/thumbs}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.2}
+  s.rubygems_version = %q{1.6.0}
   s.summary = %q{Image server proxy that can resize images on the fly. Built in ruby as a Rack application.}
   s.test_files = [
     "spec/spec_helper.rb",
