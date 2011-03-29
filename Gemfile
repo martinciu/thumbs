@@ -5,6 +5,7 @@ gem "rack"
 gem "rack-contrib"
 gem "mini_magick"
 gem "lumberjack"
+gem "goliath"
 
 group :development do
   gem "rspec"
