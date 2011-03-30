@@ -9,7 +9,7 @@ module Thumbs
     def call(env)
       if env["thumbs.#{@cache_type}_path"]
         begin
-          status, headers, body = [200, {}, File.read(env["thumbs.#{@cache_type}_path"])]
+          status, headers, body = [200, {}, [File.read(env["thumbs.#{@cache_type}_path"])]]
           env['thumbs.logger'] << "#{@cache_type}_cache" if env['thumbs.logger']
           return [status, headers, body]
         rescue Errno::ENOENT, IOError => e
