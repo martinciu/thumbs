@@ -28,8 +28,8 @@ run Thumbs.new(
       :last_modified => true                    # add Last-Modfied header
     },
     :etag            => true,                   # add ETag
-    :logfile         => false                   # will write log file if filepath is provided
-    :server_name     => "Thumbs/0.0.8",         # Server header
+    :logfile         => false,                  # will write log file if filepath is provided
+    :server_name     => "Thumbs/0.0.10",        # Server header
     :image_not_found => "image_not_found.jpg"   # path to image_not_found
   )
 
