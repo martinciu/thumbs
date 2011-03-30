@@ -14,7 +14,7 @@ module Thumbs
       if path && status == 200
         tries = 0
         begin
-          File.open(path, "wb") {|f| f.write(body) }
+          File.open(path, "wb") {|f| f.write(body.first) }
         rescue Errno::ENOENT, IOError
           Dir.mkdir(File.dirname(path), 0755)
           retry if (tries += 1) == 1

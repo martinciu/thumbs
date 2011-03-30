@@ -10,7 +10,7 @@ module Thumbs
     def call(env)
       if env['thumbs.remote_url']
         begin
-          status, headers, body = [200, {}, open(env['thumbs.remote_url']).read]
+          status, headers, body = [200, {}, [open(env['thumbs.remote_url']).read]]
           env['thumbs.logger'] << "download" if env['thumbs.logger']
           return [status, headers, body]
         rescue StandardError, Timeout::Error => e
