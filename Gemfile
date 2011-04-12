@@ -1,9 +1,11 @@
 # A sample Gemfile
 source "http://rubygems.org"
 
-gem "rack"
-gem "rack-contrib"
-gem "mini_magick"
+gem "goliath"
+gem 'eventmachine', '>= 1.0.0.beta.1'
+gem 'em-synchrony', '>= 0.3.0.beta.1'
+gem 'em-http-request', '>= 1.0.0.beta.1'
+gem "em-files"
 gem "lumberjack"
 
 group :development do

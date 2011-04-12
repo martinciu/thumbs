@@ -15,10 +15,11 @@ Jeweler::Tasks.new do |gem|
   gem.name = "thumbs"
   gem.homepage = "http://github.com/martinciu/thumbs"
   gem.license = "MIT"
-  gem.summary = "Image server proxy that can resize images on the fly. Built in ruby as a Rack application."
+  gem.summary = "Image proxy server that can resize and cache images on the fly. Built in ruby with Goliath API."
   gem.description = ""
   gem.email = "marcin.ciunelis@gmail.com"
   gem.authors = ["Marcin Ciunelis"]
+  gem.executables = ["thumbs"]
 end
 Jeweler::RubygemsDotOrgTasks.new
 

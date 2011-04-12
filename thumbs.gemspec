@@ -23,8 +23,13 @@ Gem::Specification.new do |s|
     "README.textile",
     "Rakefile",
     "VERSION",
+    "bin/thumbs",
+    "examples/config.god",
+    "examples/config.rb",
     "lib/thumbs.rb",
+    "lib/thumbs/evented_magick.rb",
     "lib/thumbs/image.rb",
+    "lib/thumbs/image_temp_file.rb",
     "lib/thumbs/images/image_not_found.jpg",
     "lib/thumbs/middleware/content_type.rb",
     "spec/spec_helper.rb",
@@ -37,6 +42,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.7.2}
   s.summary = %q{Image proxy server that can resize and cache images on the fly. Built in ruby with Goliath API.}
   s.test_files = [
+    "examples/config.rb",
     "spec/spec_helper.rb",
     "spec/thumbs_spec.rb"
   ]
