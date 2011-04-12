@@ -5,9 +5,9 @@
 
 Gem::Specification.new do |s|
   s.name = %q{thumbs}
-  s.version = "1.0.0"
+  s.version = "1.0.0.beta.1"
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcin Ciunelis"]
   s.date = %q{2011-04-12}
   s.description = %q{}
@@ -23,8 +23,14 @@ Gem::Specification.new do |s|
     "README.textile",
     "Rakefile",
     "VERSION",
+    "bin/thumbs",
+    "examples/config.god",
+    "examples/config.rb",
     "lib/thumbs.rb",
+    "lib/thumbs/evented_magick.rb",
     "lib/thumbs/image.rb",
+    "lib/thumbs/image_temp_file.rb",
+    "lib/thumbs/images/image_not_found.jpg",
     "lib/thumbs/middleware/content_type.rb",
     "spec/spec_helper.rb",
     "spec/thumbs_spec.rb",
