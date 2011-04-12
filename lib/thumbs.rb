@@ -1,74 +1,133 @@
 require "rubygems"
-require "rack"
-require "rack/contrib"
+require "bundler/setup"
 
-module Thumbs
-  autoload :Server,       'thumbs/server'
-  autoload :Image,        'thumbs/image'
-  autoload :NotFound,     'thumbs/middleware/not_found'
-  autoload :ServerName,   'thumbs/middleware/server_name'
-  autoload :CacheControl, 'thumbs/middleware/cache_control'
-  autoload :Download,     'thumbs/middleware/download'
-  autoload :Resize,       'thumbs/middleware/resize'
-  autoload :Config,       'thumbs/middleware/config'
-  autoload :CacheWrite,   'thumbs/middleware/cache_write'
-  autoload :CacheRead,    'thumbs/middleware/cache_read'
-  autoload :Logger,       'thumbs/middleware/logger'
-  autoload :ContentType,  'thumbs/middleware/content_type'
+require 'goliath'
+require 'em-http'
+require 'em-synchrony/em-http'
+require 'digest/sha1'
+require "em-files"
+require 'rack/mime'
+require 'lumberjack'
+
+require File.join(File.dirname(__FILE__), '/thumbs/evented_magick')
+require File.join(File.dirname(__FILE__), '/thumbs/image')
+require File.join(File.dirname(__FILE__), '/thumbs/middleware/content_type')
+
+class Thumbs < Goliath::API
   
-  def self.new(args)
-    options = {
-      :thumbs_folder   => false,
-      :etag            => true,
-      :cache           => true,
-      :cache_original  => true,
-      :cache_control   => {
-        :ttl           => 86400,
-        :last_modified => true
-      },
-      :server_name     => "Thumbs/0.0.10",
-      :url_map         => "/:size/:original_url",
-      :image_not_found => File.join(File.dirname(__FILE__), "thumbs", "images", "image_not_found.jpg"),
-      :runtime         => false,
-      :logfile         => false
-    }.merge!(args)
-    
-    Rack::Builder.new do
-      
-      use Rack::Runtime if options[:runtime]
-      
-      use Rack::Config do |env|
-        env['thumbs.thumbs_folder'] = options[:thumbs_folder]
-      end
-      
-      use Rack::ShowExceptions
+  use ::Rack::Runtime
 
-      use Thumbs::Config, options[:url_map]
-      
-      use Thumbs::Logger, options[:logfile] if options[:logfile]
+  use Goliath::Rack::Heartbeat          # respond to /status with 200, OK (monitoring, etc)
+  use ContentType
 
-      use Thumbs::ServerName, options[:server_name] if options[:server_name]
-      use Thumbs::CacheControl, options[:cache_control] if options[:cache_control]
-      use Rack::ETag if options[:etag]
-
-      use Thumbs::ContentType
-      
-      if options[:cache] && options[:thumbs_folder] && File.exist?(File.expand_path(options[:thumbs_folder]))
-        use Thumbs::CacheRead, "resized"
-        use Thumbs::CacheWrite, "resized"
-      end
-      
-      use Thumbs::Resize
-
-      use Thumbs::CacheWrite, "original" if options[:cache_original] && options[:thumbs_folder] && File.exist?(File.expand_path(options[:thumbs_folder]))
-
-      use Thumbs::NotFound, options[:image_not_found] if options[:image_not_found] && File.exist?(File.expand_path(options[:image_not_found]))
-
-      use Thumbs::CacheRead, "original" if options[:cache_original]
-      use Thumbs::Download
-
-      run Thumbs::Server.new
-    end
+  def initialize
+    @logger = Lumberjack::Logger.new("logs/thumbs.log", :time_format => "%Y-%m-%d %H:%M:%S", :roll => :daily, :flush_seconds => 5)
   end
-  
+
+  def response(env)
+    start_time = Time.now.to_f
+    log_message = []
+    url_pattern, keys = compile(env.url_map)
+    status, headers, boady = [-1, {}, ""]
+
+    if match = url_pattern.match(env['PATH_INFO'])
+      values = match.captures.to_a
+      params = keys.zip(values).inject({}) do |hash,(k,v)|
+        hash[k.to_sym] = v
+        hash
+      end
+      image = Image.new(params.merge(:thumbs_folder => env.thumbs_folder))
+      log_message << image.url
+      log_message << image.size
+    else
+      log_message << "invalid_url"
+      return not_found
+    end
+
+    #cache_resized_read
+    if env.cache
+      begin
+        status, body = 200, File.read(image.resized_path)
+        log_message << "resized_cache"
+        write_log log_message, start_time
+        return [status, headers, body]
+      rescue Errno::ENOENT, IOError => e
+      end
+    end
+
+    #cache_original_read
+    if env.cache_original
+      begin
+        status, body = 200, File.read(image.original_path)
+        log_message << "original_cache"
+      rescue Errno::ENOENT, IOError => e
+      end
+    end
+
+    if status < 200
+      #download
+      log_message << "download"
+      original_response = EM::HttpRequest.new(image.remote_url).get :connection_timeout => 5, :inactivity_timeout => 10, :redirects => 0
+      status = original_response.response_header.status
+      if status >= 200 && status < 300
+        status, body = 200, original_response.response
+        #cache_original_write
+        if cache_original
+          path = image.original_path
+          tries = 0
+          begin
+            EM::File.open(path, "wb") {|f| f.write(body) }
+          rescue Errno::ENOENT, IOError
+            Dir.mkdir(File.dirname(path), 0755)
+            retry if (tries += 1) == 1
+          end
+        end
+      else
+        status, heders, body = not_found
+      end
+
+    end
+
+    #resize
+    if status > 0
+      thumb = EventedMagick::Image.from_blob(body)
+      thumb.resize image.size
+      body = thumb.to_blob
+    end
+
+    #cache_resized_write
+    if env.cache && status >= 200 && status < 300
+      path = image.resized_path
+      tries = 0
+      begin
+        EM::File.open(path, "wb") {|f| f.write(body) }
+      rescue Errno::ENOENT, IOError
+        Dir.mkdir(File.dirname(path), 0755)
+        retry if (tries += 1) == 1
+      end
+    end
+    write_log log_message, start_time
+    [status, headers, body]
+  end
+
+  private
+
+    def compile(url_map)
+      keys = []
+      pattern = url_map.gsub(/((:\w+))/) do |match|
+        keys << $2[1..-1]
+        "(.+?)"
+      end
+      [/^#{pattern}$/, keys]
+    end
+
+    def not_found
+      [404, {}, File.read(File.expand_path("thumbs/images/image_not_found.jpg", __FILE__))]
+    end
+
+    def write_log(message, start_time)
+      message << "#{((Time.now.to_f - start_time)*1000).round}ms"
+      @logger.info message.join("\t")
+    end
+
 end

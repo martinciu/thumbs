@@ -1,53 +1,21 @@
 h1. Thumbs
 
-Image server proxy that can resize images on the fly. Built in ruby as a Rack application.
+Image proxy server that can resize and cache images on the fly. Built in ruby with Goliath API.
 
 h2. Requirements
 
- * rack
- * rack-contrib
- * mini_magick
+ * ruby 1.9.2
+ * goliath
 
 h2. Usage
 
-1. as a standalone rack app
+$ gem install thumbs
+$ thumbs -c path/to/config.rb -p 9000
 
-config.ru
-
-bc.. require "rubygems"
-require 'thumbs'
-
-run Thumbs.new(
-    :url_map         => "/:size/:original_url", # url pattern, :original_url is required
-    :thumbs_folder   => "public/system/thumbs", # default: false - do not write on disk
-    :cache           => true,                   # cache resized images - has no effect unless thumbs_folder exist
-    :cache_original  => true,                   # cache original images - has no effect unless thumbs_folder exist
-    :runtime         => true,                   # add X-Runtime header
-    :cache_control => {
-      :ttl           => 86400,                  # add Expires and Cache-Control header for 24h
-      :last_modified => true                    # add Last-Modfied header
-    },
-    :etag            => true,                   # add ETag
-    :logfile         => false,                  # will write log file if filepath is provided
-    :server_name     => "Thumbs/0.0.10",        # Server header
-    :image_not_found => "image_not_found.jpg"   # path to image_not_found
-  )
-
-2. as a moundable rails app
-
-YourApplication::Application.routes.draw do
-
-  mount Thumbs.new(:url_map => "/:size/:original_url") => "images/resized"
-
-  ....
-end
-
-3. you can even use it on heroku for free
-
-  create your own rack app, or use this one: http://thumbs-gem.heroku.com/i/100x100/www.google.com/images/logos/ps_logo2.png
-  
 h2. TODO
 
+ * documentation
+ * more middleware
  * Tests!
  * Access control
  * SSL support
